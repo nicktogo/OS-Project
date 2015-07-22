@@ -35,11 +35,11 @@
 bochsrc
 
 #image file
-.img
+*.img
 
 #binary file
-.bin
+*.bin
 
-.gz
+*.gz
 
 Makefile
