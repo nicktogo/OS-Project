@@ -82,8 +82,9 @@ PUBLIC int kernel_main()
 		p_proc->q_sending = 0;
 		p_proc->next_sending = 0;
 
-		for (j = 0; j < NR_FILES; j++)
+		for (j = 0; j < NR_FILES; j++){
 			p_proc->filp[j] = 0;
+		}
 
 		p_proc->ticks = p_proc->priority = prio;
 
@@ -200,30 +201,6 @@ void TestA()
  *======================================================================*/
 void TestB()
 {
-/*
-	char tty_name[] = "/dev_tty1";
-
-	int fd_stdin  = open(tty_name, O_RDWR);
-	assert(fd_stdin  == 0);
-	int fd_stdout = open(tty_name, O_RDWR);
-	assert(fd_stdout == 1);
-
-	char rdbuf[128];
-
-	while (1) {
-		printf("$ ");
-		int r = read(fd_stdin, rdbuf, 70);
-		rdbuf[r] = 0;
-
-		if (strcmp(rdbuf, "hello") == 0)
-			printf("hello world!\n");
-		else
-			if (rdbuf[0])
-				printf("{%s}\n", rdbuf);
-	}
-
-	assert(0); never arrive here
-*/
 	spin("TestB");
 }
 
@@ -232,8 +209,7 @@ void TestB()
  *======================================================================*/
 void TestC()
 {
-	spin(" ");
-	/* assert(0); */
+	spin("TestA");
 }
 
 /*****************************************************************************
