@@ -43,3 +43,6 @@ bochsrc
 *.gz
 
 Makefile
+
+#backup file
+*~
