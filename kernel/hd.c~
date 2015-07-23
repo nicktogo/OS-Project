@@ -433,17 +433,7 @@ PRIVATE void print_identify_info(u16* hdinfo)
 	number = hdinfo[0];
 	printl("General configuration bit-significant information: %d\n",number);	
 
-	number = hdinfo[1];
-	printl("Number of logical cylinder: %d\n",number);
-	
-	number = hdinfo[3];
-	printl("Number of logical cylinder: %d\n",number);
 
-	number = hdinfo[6];
-	printl("PIO data transfer cycle timing mode: %d\n",number);
-	
-	number = hdinfo[51];
-	printl("Number of logical sector per logical track: %d\n",number);
 	
 
 	int capabilities = hdinfo[49];
