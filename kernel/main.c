@@ -129,12 +129,13 @@ PUBLIC int get_ticks()
  *======================================================================*/
 void TestA()
 {
+
 	int fd;
 	int i, n;
 
 	char filename[MAX_FILENAME_LEN+1] = "blah";
-	const char bufw[] = "abcde";
-	const int rd_bytes = 3;
+	const char bufw[] = "Tongji University SSE";
+	const int rd_bytes = 21;
 	char bufr[rd_bytes];
 
 	assert(rd_bytes <= strlen(bufw));
@@ -142,7 +143,7 @@ void TestA()
 	/* myfsmsg */
 	int mfm;
 	mfm = myfsmsg();
-	printl("MyFSmsg gets fd=%d\n", mfm);
+	printl("\n********************************************\n*               File Test                  *\n********************************************\n--------------------------\n-   MyFSmsg gets fd=%d    -\n--------------------------\n", mfm);
 
 	/* create */
 	fd = open(filename, O_CREAT | O_RDWR);
@@ -165,12 +166,12 @@ void TestA()
 	n = read(fd, bufr, rd_bytes);
 	assert(n == rd_bytes);
 	bufr[n] = 0;
-	printl("%d bytes read: %s\n", n, bufr);
+	printl("%d bytes read: %s\n\n", n, bufr);
 
 	/* close */
 	close(fd);
 
-	char * filenames[] = {"/foo", "/bar", "/baz"};
+	char * filenames[] = {"/I", "/Love", "/OS"};
 
 	/* create files */
 	for (i = 0; i < sizeof(filenames) / sizeof(filenames[0]); i++) {
@@ -180,9 +181,10 @@ void TestA()
 		close(fd);
 	}
 
-	char * rfilenames[] = {"/bar", "/foo", "/baz", "/dev_tty0"};
+	char * rfilenames[] = {"/I", "/Love", "/OS", "/dev_tty0"};
 
 	/* remove files */
+	printl("\n");
 	for (i = 0; i < sizeof(rfilenames) / sizeof(rfilenames[0]); i++) {
 		if (unlink(rfilenames[i]) == 0)
 			printl("File removed: %s\n", rfilenames[i]);
