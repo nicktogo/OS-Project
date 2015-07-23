@@ -198,6 +198,7 @@ void TestA()
  *======================================================================*/
 void TestB()
 {
+/*
 	char tty_name[] = "/dev_tty1";
 
 	int fd_stdin  = open(tty_name, O_RDWR);
@@ -219,7 +220,9 @@ void TestB()
 				printf("{%s}\n", rdbuf);
 	}
 
-	assert(0); /* never arrive here */
+	assert(0); never arrive here
+*/
+	spin("TestB");
 }
 
 /*======================================================================*
@@ -227,7 +230,7 @@ void TestB()
  *======================================================================*/
 void TestC()
 {
-	spin("TestC");
+	spin(" ");
 	/* assert(0); */
 }
 
