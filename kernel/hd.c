@@ -430,6 +430,57 @@ PRIVATE void hd_identify(int drive)
  *****************************************************************************/
 PRIVATE void print_identify_info(u16* hdinfo)
 {
+
+	printl("***********************Disk info begin*******************************\n");
+
+	
+	//详细硬盘信息
+	printl("**************General configuration bit-significant information*****************\n");
+	int general_conf_info = hdinfo[0];
+
+	printl("ATA device? %s\n",(general_conf_info & 0x8000) ? "Yes" : "No");
+
+	printl("Removable media device? %s\n",(general_conf_info & 0x0080) ? "Yes" : "No");
+	
+	printl("******************Capabilities*****************\n");
+
+	int capabilities = hdinfo[49];
+
+	printl("Timer values supported: %s\n",
+	       (capabilities & 0x2000) ? "Yes" : "No");
+
+	printl("IORDY supported: %s\n",
+	       (capabilities & 0x0800) ? "Yes" : "No");
+
+	printl("IORDY disable supported: %s\n",
+	       (capabilities & 0x0400) ? "Yes" : "No");
+
+	printl("LBA supported: %s\n",
+	       (capabilities & 0x0200) ? "Yes" : "No");
+
+	printl("DMA supported: %s\n",
+	       (capabilities & 0x0100) ? "Yes" : "No");
+
+	printl("************************Other info*********************************\n");
+
+	int multiple_sec = hdinfo[59];
+	printl("Multiple sector setting is valid? %s\n",
+	       (multiple_sec & 0x0100) ? "Yes" : "No");
+
+	int sectors = ((int)hdinfo[61] << 16) + hdinfo[60];
+	printl("HD size: %dMB\n", sectors * 512 / 1000000);
+
+	int pio_mode_supported = hdinfo[64];
+	printl("PIO mode supported: %s\n",
+	       (pio_mode_supported & 0x00ff) ? "Yes" : "No");
+
+	int cmd_set_supported = hdinfo[83];
+	printl("LBA48 supported: %s\n",
+	       (cmd_set_supported & 0x0400) ? "Yes" : "No");
+
+	int capacity = ((int)hdinfo[57] << 16) + hdinfo[58];
+	printl("Current capacity in sectors: %dMB\n", capacity / 1000000 / 512);
+
 	int i, k;
 	char s[64];
 
@@ -450,37 +501,8 @@ PRIVATE void print_identify_info(u16* hdinfo)
 		
 		printl("%s: %s\n", iinfo[k].desc, s);
 	}
-	
-	//打印详细硬盘信息
-	int number;
-	number = hdinfo[0];
-	printl("General configuration bit-significant information: %d\n",number);	
 
-	number = hdinfo[1];
-	printl("Number of logical cylinder: %d\n",number);
-	
-	number = hdinfo[3];
-	printl("Number of logical cylinder: %d\n",number);
-
-	number = hdinfo[6];
-	printl("PIO data transfer cycle timing mode: %d\n",number);
-	
-	number = hdinfo[51];
-	printl("Number of logical sector per logical track: %d\n",number);
-	
-
-	int capabilities = hdinfo[49];
-	printl("LBA supported: %s\n",
-	       (capabilities & 0x0200) ? "Yes" : "No");
-
-	int cmd_set_supported = hdinfo[83];
-	printl("LBA48 supported: %s\n",
-	       (cmd_set_supported & 0x0400) ? "Yes" : "No");
-
-	int sectors = ((int)hdinfo[61] << 16) + hdinfo[60];
-	printl("HD size: %dMB\n", sectors * 512 / 1000000);
-
-
+	printl("***********************Disk info end*******************************\n");
 }
 
 /*****************************************************************************
