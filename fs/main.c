@@ -63,9 +63,11 @@ PUBLIC void task_fs()
 		case RESUME_PROC:
 			src = fs_msg.PROC_NR;
 			break;
-		case LSEEK:
-		 	fs_msg.OFFSET = do_lseek();
+		case MYFSMSG:
 			break;
+		/* case LSEEK: */
+		/* 	fs_msg.OFFSET = do_lseek(); */
+		/* 	break; */
 		/* case FORK: */
 		/* 	fs_msg.RETVAL = fs_fork(); */
 		/* 	break; */
@@ -89,6 +91,7 @@ PUBLIC void task_fs()
 		msg_name[WRITE]  = "WRITE";
 		msg_name[LSEEK]  = "LSEEK";
 		msg_name[UNLINK] = "UNLINK";
+		msg_name[MYFSMSG] = "MYFSMSG";
 		/* msg_name[FORK]   = "FORK"; */
 		/* msg_name[EXIT]   = "EXIT"; */
 		/* msg_name[STAT]   = "STAT"; */
@@ -96,16 +99,20 @@ PUBLIC void task_fs()
 		switch (msgtype) {
 		case CLOSE:
 		case UNLINK:
+			//dump_fd_graph("%s just finished.", msg_name[msgtype]);
+			//panic("");
 		case OPEN:
 		case READ:
 		case WRITE:
 		/* case FORK: */
-		case LSEEK:
+		/* case LSEEK: */
 		/* case EXIT: */
 		/* case STAT: */
 			break;
 		case RESUME_PROC:
 		case DISK_LOG:
+			break;
+		case MYFSMSG:
 			break;
 		default:
 			assert(0);

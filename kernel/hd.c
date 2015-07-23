@@ -27,6 +27,7 @@ PRIVATE void	hd_open			(int device);
 PRIVATE void	hd_close		(int device);
 PRIVATE void	hd_rdwt			(MESSAGE * p);
 PRIVATE void	hd_ioctl		(MESSAGE * p);
+PRIVATE void	hd_myfsmsg		(MESSAGE * p);
 PRIVATE void	hd_cmd_out		(struct hd_cmd* cmd);
 PRIVATE void	get_part_table		(int drive, int sect_nr, struct part_ent * entry);
 PRIVATE void	partition		(int device, int style);
@@ -79,6 +80,10 @@ PUBLIC void task_hd()
 		case DEV_IOCTL:
 			hd_ioctl(&msg);
 			break;
+		
+		case DEV_MYFSMSG:
+			hd_myfsmsg(&msg);
+			break;
 
 		default:
 			dump_msg("HD driver::unknown msg", &msg);
@@ -113,6 +118,20 @@ PRIVATE void init_hd()
 	for (i = 0; i < (sizeof(hd_info) / sizeof(hd_info[0])); i++)
 		memset(&hd_info[i], 0, sizeof(hd_info[0]));
 	hd_info[0].open_cnt = 0;
+}
+
+/*****************************************************************************
+
+ *                                hd_myfsmsg
+ *****************************************************************************/
+/**
+ * hd_myfsmsg
+
+ * 
+ *****************************************************************************/
+PRIVATE void hd_myfsmsg(MESSAGE * p)
+{
+	
 }
 
 /*****************************************************************************
@@ -349,9 +368,13 @@ PRIVATE void partition(int device, int style)
 PRIVATE void print_hdinfo(struct hd_info * hdi)
 {
 	int i;
+	printl("\n");
+	printl("********************************************\n");
+	printl("*                  HD INFO                 *\n");
+	printl("********************************************\n");
 	for (i = 0; i < NR_PART_PER_DRIVE + 1; i++) {
 		printl("%sPART_%d: base %d(0x%x), size %d(0x%x) (in sector)\n",
-		       i == 0 ? " " : "     ",
+		       i == 0 ? "" : "     ",
 		       i,
 		       hdi->primary[i].base,
 		       hdi->primary[i].base,

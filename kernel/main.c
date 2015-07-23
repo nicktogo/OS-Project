@@ -47,7 +47,7 @@ PUBLIC int kernel_main()
                         privilege = PRIVILEGE_USER;
                         rpl       = RPL_USER;
                         eflags    = 0x202; /* IF=1, bit 2 is always 1 */
-			prio      = 100;//执行次数
+			prio      = 5;
                 }
 
 		strcpy(p_proc->name, p_task->name);	/* name of the process */
@@ -138,6 +138,11 @@ void TestA()
 	char bufr[rd_bytes];
 
 	assert(rd_bytes <= strlen(bufw));
+
+	/* myfsmsg */
+	int mfm;
+	mfm = myfsmsg();
+	printl("MyFSmsg gets fd=%d\n", mfm);
 
 	/* create */
 	fd = open(filename, O_CREAT | O_RDWR);

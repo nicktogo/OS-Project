@@ -17,8 +17,6 @@
 #include "global.h"
 #include "proto.h"
 
-#include <stdio.h>
-
 PRIVATE void block(struct proc* p);
 PRIVATE void unblock(struct proc* p);
 PRIVATE int  msg_send(struct proc* current, int dest, MESSAGE* m);
@@ -47,13 +45,10 @@ PUBLIC void schedule()
 			}
 		}
 
-		if (!greatest_ticks) {
-			for (p = &FIRST_PROC; p <= &LAST_PROC; p++) {
-				if (p->p_flags == 0) {
+		if (!greatest_ticks)
+			for (p = &FIRST_PROC; p <= &LAST_PROC; p++)
+				if (p->p_flags == 0)
 					p->ticks = p->priority;
-				}
-			}
-		}
 	}
 }
 
