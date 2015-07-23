@@ -59,14 +59,7 @@ PUBLIC void init_screen(TTY* tty)
 		disp_pos = 0;
 	}
 	else {
-		/* 
-		 * `?' in this string will be replaced with 0, 1, 2, ...
-		 */
-		const char prompt[] = "[TTY #?]\n";
-
-		const char * p = prompt;
-		for (; *p; p++)
-			out_char(tty->console, *p == '?' ? nr_tty + '0' : *p);
+		const char prompt[] = "\n";
 	}
 
 	set_cursor(tty->console->cursor);
