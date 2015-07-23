@@ -25,7 +25,7 @@
 #include "proto.h"
 
 PRIVATE struct inode * create_file(char * path, int flags);
-PRIVATE int alloc_smap_bit(int dev, int nr_sects_to_alloc);
+PRIVATE int alloc_ismap_bit(int dev, int nr_sects_to_alloc);
 PRIVATE struct inode * new_inode(int dev, int inode_nr, int start_sect);
 PRIVATE void new_dir_entry(struct inode * dir_inode, int inode_nr, char * filename);
 
@@ -154,8 +154,8 @@ PRIVATE struct inode * create_file(char * path, int flags)
 	if (strip_path(filename, path, &dir_inode) != 0)
 		return 0;
 
-	int inode_nr = alloc_smap_bit(dir_inode->i_dev, 0);//M
-	int free_sect_nr = alloc_smap_bit(dir_inode->i_dev,
+	int inode_nr = alloc_ismap_bit(dir_inode->i_dev, 0);//M
+	int free_sect_nr = alloc_ismap_bit(dir_inode->i_dev,
 					  NR_DEFAULT_FILE_SECTS);
 	struct inode *newino = new_inode(dir_inode->i_dev, inode_nr,
 					 free_sect_nr);
@@ -223,9 +223,20 @@ PUBLIC int do_lseek()
 }
 
 /*****************************************************************************
- *                                alloc_smap_bit
+ *                                alloc_ismap_bit
  *****************************************************************************/
 /**
+ * alloc_imap_bit
+ *
+ * Allocate a bit in inode-map.
+ * 
+ * @param dev  In which device the inode-map is located.
+ * 
+ * @return  I-node nr.
+ *
+ *
+ * alloc_smap_bit
+ *
  * Allocate a bit in sector-map.
  * 
  * @param dev  In which device the sector-map is located.
@@ -233,8 +244,9 @@ PUBLIC int do_lseek()
  * 
  * @return  The 1st sector nr allocated.
  *****************************************************************************/
-PRIVATE int alloc_smap_bit(int dev, int nr_sects_to_alloc)
+PRIVATE int alloc_ismap_bit(int dev, int nr_sects_to_alloc)
 {
+	/* alloc_imap_bit */
 	if(nr_sects_to_alloc == 0){
 		int inode_nr = 0;
 		int i, j, k;
@@ -268,6 +280,7 @@ PRIVATE int alloc_smap_bit(int dev, int nr_sects_to_alloc)
 		return 0;
 	}
 
+	/* alloc_smap_bit */
 	else{
 		/* int nr_sects_to_alloc = NR_DEFAULT_FILE_SECTS; */
 
